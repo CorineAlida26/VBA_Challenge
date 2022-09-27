@@ -1,0 +1,129 @@
+Sub StockData2020():
+
+' Define Variables
+
+Dim Tickercount As String
+
+Dim Vol As Integer
+
+Dim OpenYear As Double
+
+Dim CloseYear As Double
+
+Dim YearlyChange As Double
+
+Dim PercentChange As Double
+
+Dim Lrow As Long
+
+Dim i As Long
+
+Dim j As Long
+
+' Ticker count on 1st row
+
+
+Tickercount = 2
+
+' set start to 2nd row
+
+j = 2
+
+' Last cell in 1st column "ticker"
+
+Lrow = Cells(Rows.Count, 1).End(xlUp).Row
+
+
+' Column headers
+
+Cells(1, 9).Value = "ticker"
+
+Cells(1, 10).Value = "yearly change"
+
+Cells(1, 11).Value = "Percent change"
+
+Cells(1, 12).Value = "Total stock volume"
+
+' looping rows
+
+For i = 2 To LRow
+
+' Total Volume Column L
+
+TotalVolume = TotalVolume + Cells(i, 7).Value
+
+' Find Starting Value
+
+If Cells(i - 1, 1).Value <> Cells(i, 1).Value Then
+
+StartingValue = Cells(i, 3).Value
+
+End If 
+
+If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+EndingValue = Cells(i, 6).Value
+
+ChangeValue = StartingValue - EndingValue
+
+'Column I
+
+Cells(Tickercount, 9).Value = Cells(i, 1).Value
+
+' Column j
+
+Cells(Tickercount, 10).Value = ChangeValue
+
+
+Cells(Tickercount, 12).Value = TotalVolume
+
+TotalVolume = 0
+
+Tickercount = Tickercount + 1
+
+End If
+
+' column k
+
+ If StartingValue <> 0 Then
+
+ PercentChange = (ChangeValue / StartingValue) * 100
+ 
+
+' formating in %
+
+ Cells(Tickercount, 11).Value = EndingValue / StartingValue - 1
+ 
+ 
+ Else
+
+Cells(Tickercount, 11).Value = NumberFormat = "0.00%"
+
+
+ End If
+
+' Conditional Formating
+
+If Cells(Tickercount, 10).Value < 0 Then
+
+' Red Color
+
+Cells(Tickercount, 10).Interior.ColorIndex = 3
+
+Else
+
+' Green Color
+
+Cells(Tickercount, 10).Interior.ColorIndex = 4
+
+End If
+
+
+
+Next i
+
+
+
+
+End Sub
+
